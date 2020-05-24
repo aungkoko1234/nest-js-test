@@ -1,3 +1,4 @@
+import { LoggingModule } from './../logging/logging.module';
 
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Transaction } from './transactions.entity';
@@ -11,7 +12,8 @@ import { PacksModule } from 'src/packs/packs.module';
   imports :[
     TypeOrmModule.forFeature([Transaction]),
     PromocodesModule,
-    PacksModule
+    PacksModule,
+    LoggingModule,
 ],
   providers: [TransactionsService],
   controllers: [TransactionsController]

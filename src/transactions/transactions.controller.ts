@@ -1,3 +1,5 @@
+import { Logging } from './../logging/logging.entity';
+import { LoggingService } from './../logging/logging.service';
 import { Pack } from './../packs/packs.entity';
 import { PacksService } from './../packs/packs.service';
 import { PromoCode } from './../promocodes/promocodes.entity';
@@ -11,7 +13,7 @@ import { Transaction } from './transactions.entity';
 
 @Controller('transactions')
 export class TransactionsController {
-    constructor(private transactionService : TransactionsService,private promoService : PromocodesService,private packsService : PacksService){}
+    constructor(private transactionService : TransactionsService,private promoService : PromocodesService,private packsService : PacksService,private logService : LoggingService){}
 
     @UseGuards(JwtAuthGuard)
     @Get()
@@ -51,10 +53,20 @@ export class TransactionsController {
      newTrans.total = grandTotal;
      try {
         const transaction = await this.transactionService.create(newTrans)
+        let logString : string;
         if(promo){
             promo.is_used = true;
             await this.promoService.update(promo);
+            logString =`User Id ${createTransDto.userId} bought ${pack.name} with promo code ${promo.code}.`
+        }else{
+            logString =`User Id ${createTransDto.userId} bought ${pack.name}.`
         }
+       const newLog : Logging = new Logging();
+       newLog.description = logString;
+       newLog.createdBy = createTransDto.userId;
+       newLog.effectedTable = "Transaction";
+       newLog.action = "Create"
+        await this.logService.create(newLog);
         return {
             "errorCode" : 0,
             "message" : 'Success',

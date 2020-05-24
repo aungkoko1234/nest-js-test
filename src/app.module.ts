@@ -13,6 +13,7 @@ import { NewbieModule } from './newbie/newbie.module';
 import { PacksModule } from './packs/packs.module';
 import { PromocodesModule } from './promocodes/promocodes.module';
 import { TransactionsModule } from './transactions/transactions.module';
+import { LoggingModule } from './logging/logging.module';
 
 
 @Module({
@@ -36,7 +37,8 @@ import { TransactionsModule } from './transactions/transactions.module';
     NewbieModule,
     PacksModule,
     PromocodesModule,
-    TransactionsModule
+    TransactionsModule,
+    LoggingModule
   ],
   controllers: [AppController],
   providers: [AppService],
