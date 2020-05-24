@@ -10,8 +10,19 @@ export class PacksController {
     constructor(private packsService : PacksService){}
     @UseGuards(JwtAuthGuard)
     @Get()
-    index() : Promise<Pack[]>{
-        return this.packsService.findAll();
+   async index() {
+        const packList = await this.packsService.findAll();
+        return {
+          "errorCode":0,
+          "message":"success",
+          "data":{
+            "total_item": packList.length,
+            "total_page": Math.ceil(packList.length/10),
+            "mem_tier":"newbie",
+            "total_expired_class": 0,
+            "pack_list": packList 
+          }
+        }
     } 
  
     @UseGuards(JwtAuthGuard)
