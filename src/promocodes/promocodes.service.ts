@@ -33,4 +33,8 @@ export class PromocodesService {
     async findOne(id) : Promise<PromoCode>{
         return await this.promoRepository.findOne(id)
     }
+
+    async check(code) : Promise<PromoCode>{
+        return await this.promoRepository.findOne({code:code});
+    }
 }
