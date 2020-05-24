@@ -12,7 +12,7 @@ export class RolesService {
     }
 
     async findAll() : Promise<Role[]>{
-        return await this.roleRepository.find();
+        return await this.roleRepository.find({ relations: ["users"] });
     }
 
     async create(role : CreateRoleDto) : Promise<CreateRoleDto> {

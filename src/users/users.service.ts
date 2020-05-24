@@ -17,6 +17,10 @@ export class UsersService {
         return await this.userRepository.find({ relations: ["role"] });
     }
 
+    async findOne(name) : Promise<User | undefined>{
+        return await this.userRepository.findOne({where:[{name:name}]})
+    }
+
     async create(user : CreateUserDto) : Promise<CreateUserDto> {
     
         user.password = await createHash('md5').update(user.password).digest('hex')
@@ -35,8 +39,8 @@ export class UsersService {
     //'getBooks()' return all the books which are associated with the user 
 // provided through 'userID' by the request  
     async getRoleOfUser(roleID: number): Promise<Role> {
-        console.log(typeof(roleID));
         const user: User = await this.userRepository.findOne({where: {id: roleID}, relations: ['role']});
         return user.role;
     }
+
 }
